@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Noticeable FirstTimeChatter for FFZ
-// @namespace    rosrwan
+// @namespace    https://github.com/rosr-97/rosrwan-scripts
 // @description  More visual elements for the FirstTimeChatter setting for trubbel's addon.
 // @version      2025-10-17
 // @author       rosrwan

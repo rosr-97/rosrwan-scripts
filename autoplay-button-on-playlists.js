@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Autoplay button on playlists
-// @namespace    minawan
+// @namespace    https://github.com/rosr-97/rosrwan-scripts
 // @version      2026-02-13
 // @description  Brings back the autoplay button into youtube playlists.
 // @author       rosrwan
