@@ -70,10 +70,8 @@
 
   async function chatInput_style(instance)
   {
-    const rules = document.head.querySelector('#ffz--managed-style--5')?.sheet?.cssRules;
-    if (!rules) return;
-    styleNode.innerHTML = Object.values(rules)
-      .some(rule => rule.selectorText === '.chat-wysiwyg-input-box--allow-border-style:not(:hover):not(:focus-within)')
+    styleNode.innerHTML = document.head.querySelectorAll('[id^=ffz--managed-style--]')?.values()
+      .find(item => /chat-wysiwyg-input-box--allow-border-style:not\(:hover\):not\(:focus-within\)/i.exec(item.innerText)?.length > 0)
       ? css : null;
   }
 })();
