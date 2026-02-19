@@ -1,16 +1,17 @@
 // ==UserScript==
 // @name         Autoplay button on playlists
 // @namespace    https://github.com/rosr-97/rosrwan-scripts
-// @version      2026-02-13
+// @version      2026-02-19
 // @description  Brings back the autoplay button into youtube playlists.
 // @author       rosrwan
-// @match        https://*.youtube.com/*
+// @match        https://www.youtube.com/*
 // @icon         https://icons.duckduckgo.com/ip2/youtube.com.ico
 // @grant        GM_addStyle
 // @run-at       document-idle
+// @noframes
 // ==/UserScript==
 
-(function() {
+(function () {
   'use strict';
 
   const css = `
@@ -31,7 +32,7 @@
 
     const ytdPlayer = document.body?.querySelector('ytd-player');
     if (!ytdPlayer) return;
-    
+
     const adReference = ytdPlayer.querySelector('.ytp-ad-player-overlay-layout__ad-info-container');
     if (adReference) return;
 
@@ -40,7 +41,7 @@
 
     const autoplay = ytdPlayer.querySelector(".ytp-button.ytp-autonav-toggle.delhi-fast-follow-autonav-toggle .ytp-autonav-toggle-button");
     if (!autoplay) return;
-    
+
     const html5Player = ytdPlayer.querySelector('.html5-video-player');
     if (!html5Player) return;
 
@@ -61,11 +62,10 @@
   });
 
   new MutationObserver((mutationsList, observer) => {
-    for (const mutation of mutationsList)
-    {
+    for (const mutation of mutationsList) {
       if (!mutation.target?.classList.contains('ytd-player')) continue;
-      ytdObserver.observe(mutation.target, { childList:true, subtree:true });
+      ytdObserver.observe(mutation.target, { childList: true, subtree: true });
       observer.disconnect();
     }
-  }).observe(document.body, { childList:true, subtree:true });
+  }).observe(document.body, { childList: true, subtree: true });
 })();
