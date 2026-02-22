@@ -54,12 +54,11 @@
       const currentTime = video.currentTime || 0;
       if ((duration - 0.6) > currentTime) {
         !html5Player.classList.contains('ended-mode') || html5Player.classList.remove('ended-mode');
-        !html5Player.classList.contains('ytp-fullscreen-grid-active') || html5Player.classList.remove('ytp-fullscreen-grid-active');
         return;
       }
 
       html5Player.classList.add('ytp-fullscreen-grid-active', 'ended-mode');
-      html5Player.classList.remove('paused-mode');
+      html5Player.classList.remove('paused-mode', 'ytp-fullscreen-grid-peeking');
       if (video.paused) return;
 
       const isEnabled = autoplay.ariaChecked;
