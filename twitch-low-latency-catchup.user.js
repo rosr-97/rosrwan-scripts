@@ -1,14 +1,14 @@
 // ==UserScript==
-// @name         Twitch Low Latency Catch-Up
+// @name         Twitch Low Latency Catch-Up for FFZ
 // @version      2026-02-27
-// @description  Integration of the script 'Twitch Low Latency Catch-Up' for FrankerFaceZ.
+// @description  Integration controller of the script 'Twitch Low Latency Catch-Up' for FrankerFaceZ.
 // @author       rosrwan
 // @namespace    https://github.com/rosr-97/rosrwan-scripts
 // @match        https://www.twitch.tv/*
 // @match        https://player.twitch.tv/*
 // @grant        none
 // @run-at       document-idle
-// @icon         
+// @icon         https://raw.githubusercontent.com/rosr-97/rosrwan-scripts/8e7678e34918c3e14780ee39c12f101cf2ba2f9c/assets/twitch-low-latency-catchup.png
 // @noframes
 // ==/UserScript==
 
@@ -26,7 +26,7 @@
     enabled: true,
     requires: [],
     settings: 'add_ons.low_latency_catch_up',
-    icon: ''
+    icon: 'https://raw.githubusercontent.com/rosr-97/rosrwan-scripts/8e7678e34918c3e14780ee39c12f101cf2ba2f9c/assets/twitch-low-latency-catchup.png'
   };
 
   new MutationObserver((mutationsList, observer) => {
@@ -53,8 +53,8 @@
           default: true,
           ui: {
             path: 'Add-Ons > Low Latency Catch-Up >> General',
-            title: 'If enable Low Latency.',
-            description: '',
+            title: 'Enabled',
+            description: 'If enabled the script will try to catch up to the live stream.',
             component: 'setting-check-box'
           },
         });
