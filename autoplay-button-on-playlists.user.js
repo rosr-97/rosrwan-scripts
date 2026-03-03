@@ -33,7 +33,7 @@
   let interval = undefined;
   const ytdObserver = new MutationObserver((mutationsList, observer) => {
     clearInterval(interval);
-    if ((/&list=/i.exec(location.search)?.length ?? 0) < 1) return;
+    if (!/&list=/i.test(location.search)) return;
 
     const ytdPlayer = document.body?.querySelector('ytd-player');
     if (!ytdPlayer) return;
