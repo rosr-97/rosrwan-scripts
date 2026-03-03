@@ -43,6 +43,7 @@
       constructor(...args) {
         super(...args);
         this.inject('settings');
+        this.inject('site.router');
         this.style = new ManagedStyle();
         this.style.set('default', '#llc30 { display: none; }');
         this.enable();
@@ -166,6 +167,16 @@
             input.value = val;
             input.dispatchEvent(new InputEvent('input'));
           });
+
+        this.router.on(':route', this.router_route.bind(this));
+        this.router_route.bind(this)();
+      }
+
+      router_route(instance) {
+        const input = document.querySelector('#llc30 [data-key="enabled"]');
+        input.checked = !!/^\/(\w+)$/i.test(location.pathname)
+          && this.settings.get('low_latency_catch_up.enabled');
+        input.dispatchEvent(new InputEvent('input'));
       }
     }
 
