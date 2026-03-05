@@ -174,7 +174,7 @@
 
       router_route(instance) {
         const input = document.querySelector('#llc30 [data-key="enabled"]');
-        input.checked = !!/^\/(\w+)$/i.test(location.pathname)
+        input.checked = /^\/(\w+)$/i.test(location.pathname)
           && this.settings.get('low_latency_catch_up.enabled');
         input.dispatchEvent(new InputEvent('input'));
       }
