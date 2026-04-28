@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Twitch Low Latency Catch-Up for FFZ
-// @version      2026-03-03
+// @version      2026-04-28
 // @description  Integration controller of the script 'Twitch Low Latency Catch-Up' for FrankerFaceZ.
 // @author       rosrwan
 // @namespace    https://github.com/rosr-97/rosrwan-scripts
@@ -42,10 +42,14 @@
     class TwitchLatencyCatchUp extends FrankerFaceZ.utilities.addon.Addon {
       constructor(...args) {
         super(...args);
+
         this.inject('settings');
         this.inject('site.router');
+        this.inject('site.player');
+
         this.style = new ManagedStyle();
         this.style.set('default', '#llc30 { display: none; }');
+
         this.enable();
       }
 
@@ -168,13 +172,17 @@
             input.dispatchEvent(new InputEvent('input'));
           });
 
+        this.player.on(':update-gui', this.router_route.bind(this));
         this.router.on(':route', this.router_route.bind(this));
         this.router_route.bind(this)();
       }
 
       router_route(instance) {
         const input = document.querySelector('#llc30 [data-key="enabled"]');
-        input.checked = /^\/(\w+)$/i.test(location.pathname)
+        const isRewind = document.querySelector('[data-a-target="video-ref"] .video-player__overlay .player-controls [aria-label="Skip to Live"]');
+        const isLive = /^\/(\w+)$/i.test(location.pathname);
+
+        input.checked = isLive && !isRewind
           && this.settings.get('low_latency_catch_up.enabled');
         input.dispatchEvent(new InputEvent('input'));
       }
