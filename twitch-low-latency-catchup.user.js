@@ -22,7 +22,7 @@
     maintainer: 'rosrwan',
     description: 'Enjoy a smoother, truly live Twitch experience! This script intelligently manages playback speed to eliminate frustrating lag, keeping you in the moment. Comes with a simple on-screen menu to customize your settings.',
     version: '2026-02-27',
-    website: 'https://greasyfork.org/users/1519406',
+    website: 'https://github.com/rosr-97/rosrwan-scripts',
     enabled: true,
     requires: [],
     settings: 'add_ons.low_latency_catch_up',
