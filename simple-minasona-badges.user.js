@@ -2,7 +2,7 @@
 // @name         Simple Minasona Badges for FFZ
 // @namespace    https://github.com/rosr-97/rosrwan-scripts
 // @description  Simple implementation of the minasona badges for FrankerFacez.
-// @version      2026-30-04
+// @version      2026-05-02
 // @author       rosrwan
 // @match        https://www.twitch.tv/*
 // @icon         https://raw.githubusercontent.com/rosr-97/rosrwan-scripts/c5fd583eda27c2250aeebb305571b4727a069faf/assets/Minawan_Purple.png
@@ -61,9 +61,6 @@
     addon: 'simple_minasona_badges',
   };
 
-  /**
-   * Called when the FrankerFaceZ addon is ready.
-   */
   function addons_ready(event) {
     const { ManagedStyle } = FrankerFaceZ.utilities.dom;
 
@@ -82,6 +79,7 @@
         this.inject('chat');
         this.inject('chat.badges');
         this.inject('site.router');
+        this.inject('site.chat.input');
 
         this.users = new Map();
         this.style = new ManagedStyle();
@@ -116,11 +114,11 @@
 
       onEnable() {
         this.style.set('default', `
-          .minasona-icon-container { 
-            display: none; 
+          .minasona-icon-container {
+            display: none;
           }
           .ffz--tab-container .ffz--menu-container [for^="addon.${metadata.addon}.badge"] .ffz-badge.ffz-tooltip {
-            background-size: contain; 
+            background-size: contain;
             background-repeat: no-repeat;
           }
         `);
@@ -163,6 +161,8 @@
       }
 
       async registerUserBadge(userId, username) {
+        if (minasonas[username] === undefined) return;
+        
         const imageUrl = minasonas[username]?.imageUrl;
         const iconUrl = minasonas[username]?.iconUrl;
         const baseId = `addon.${metadata.addon}.badge`;
@@ -212,9 +212,6 @@
 
         this.users.clear();
         this.emit('chat:update-lines');
-
-        for (const message of this.chat.iterateMessages())
-          this.onReceiveMessage(message);
       }
     }
 
