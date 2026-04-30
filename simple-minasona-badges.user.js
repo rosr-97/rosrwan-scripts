@@ -78,9 +78,15 @@
 
         this.inject('chat');
         this.inject('chat.badges');
+        this.inject('site');
         this.inject('site.router');
-        this.inject('site.chat.input');
-
+        this.inject('site.fine');
+        
+        this.ChatLine = this.fine.define(
+          "chat-line",
+          n => n.onExtensionMessageClick || (n.props && n.props.message && n.props.message.user),
+          this.site.constructor.CHAT_ROUTES
+        );
         this.users = new Map();
         this.style = new ManagedStyle();
 
@@ -117,6 +123,7 @@
           .minasona-icon-container {
             display: none;
           }
+            
           .ffz--tab-container .ffz--menu-container [for^="addon.${metadata.addon}.badge"] .ffz-badge.ffz-tooltip {
             background-size: contain;
             background-repeat: no-repeat;
@@ -124,14 +131,9 @@
         `);
         this.registerTemplate();
 
-        this.chat.on(':receive-message', this.onReceiveMessage.bind(this));
-        this.chat.on(':get-messages-late', this.onGetMessagesLate.bind(this));
+        this.ChatLine.on("update", this.onReceiveMessage.bind(this));
+        this.ChatLine.on("mount", this.onReceiveMessage.bind(this));
         this.router.on(':route', this.updateBadges.bind(this));
-      }
-
-      onGetMessagesLate(instance) {
-        for (const message of this.chat.iterateMessages())
-          this.onReceiveMessage(message);
       }
 
       onReceiveMessage(instance) {
@@ -140,7 +142,7 @@
         const isDawgsChannel = /^\/(cerbervt)$/i.test(location.pathname);
         if (!isDawgsChannel && !this.isEverywhere) return;
 
-        const user = instance.message.user;
+        const user = instance.props.message.user;
         this.registerUserBadge(user.id, `${user.login}`.toLocaleLowerCase());
       }
 
@@ -162,7 +164,7 @@
 
       async registerUserBadge(userId, username) {
         if (minasonas[username] === undefined) return;
-        
+
         const imageUrl = minasonas[username]?.imageUrl;
         const iconUrl = minasonas[username]?.iconUrl;
         const baseId = `addon.${metadata.addon}.badge`;
