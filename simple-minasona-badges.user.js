@@ -5,7 +5,7 @@
 // @version      2026-29-04
 // @author       rosrwan
 // @match        https://www.twitch.tv/*
-// @icon         https://assets.twitch.tv/assets/favicon-32-e29e246c157142c94346.png
+// @icon         https://raw.githubusercontent.com/rosr-97/rosrwan-scripts/c5fd583eda27c2250aeebb305571b4727a069faf/assets/Minawan_Purple.png
 // @run-at       document-idle
 // @grant        GM_xmlhttpRequest
 // @noframes
