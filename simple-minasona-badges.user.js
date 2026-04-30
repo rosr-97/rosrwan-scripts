@@ -2,7 +2,7 @@
 // @name         Simple Minasona Badges for FFZ
 // @namespace    https://github.com/rosr-97/rosrwan-scripts
 // @description  Simple implementation of the minasona badges for FrankerFacez.
-// @version      2026-05-03
+// @version      2026-05-04
 // @author       rosrwan
 // @match        https://www.twitch.tv/*
 // @icon         https://raw.githubusercontent.com/rosr-97/rosrwan-scripts/c5fd583eda27c2250aeebb305571b4727a069faf/assets/Minawan_Purple.png
@@ -159,6 +159,7 @@
           title: 'Minawan',
           image: metadata.icon,
           css: 'background-size: contain;background-repeat: no-repeat;',
+			    click_url: 'https://minawan.me/gallery/',
         });
       }
 
