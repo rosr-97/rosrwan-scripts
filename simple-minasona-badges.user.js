@@ -119,7 +119,7 @@
           .minasona-icon-container { 
             display: none; 
           }
-          .ffz--tab-container .ffz--menu-container [for^="addon.minasona_twitch_extension.badge"] .ffz-badge.ffz-tooltip {
+          .ffz--tab-container .ffz--menu-container [for^="addon.${metadata.addon}.badge"] .ffz-badge.ffz-tooltip {
             background-size: contain; 
             background-repeat: no-repeat;
           }
@@ -150,7 +150,7 @@
         const badgeId = `addon.${metadata.addon}.badge`;
 
         this.style.set(`template`, `
-          .ffz--tab-container .ffz--menu-container [for^="addon.minasona_twitch_extension.badge"] .ffz-badge.ffz-tooltip[title="Minawan"]:first-child { display: none; }
+          .ffz--tab-container .ffz--menu-container [for^="addon.${metadata.addon}.badge"] .ffz-badge.ffz-tooltip[title="Minawan"]:first-child { display: none; }
         `);
 
         this.badges.loadBadgeData(badgeId, {
