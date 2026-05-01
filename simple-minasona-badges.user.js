@@ -2,7 +2,7 @@
 // @name         Simple Minasona Badges for FFZ
 // @namespace    https://github.com/rosr-97/rosrwan-scripts
 // @description  Simple implementation of the minasona badges for FrankerFacez.
-// @version      2026-05-08
+// @version      2026-05-09
 // @author       rosrwan
 // @match        https://www.twitch.tv/*
 // @icon         https://raw.githubusercontent.com/rosr-97/rosrwan-scripts/c5fd583eda27c2250aeebb305571b4727a069faf/assets/Minawan_Purple.png
@@ -84,7 +84,7 @@
 
         this.ChatLineWrapper = this.fine.define(
           "chat-line-wrapper",
-          n => n.props?.message?.user || (n.onTimestampClickHandler && n.props?.messageContext?.author),
+          n => n.props?.message?.user || n.props?.messageContext?.author,
           this.site.constructor.CHAT_ROUTES
         );
         this.users = new Map();
@@ -124,12 +124,12 @@
             width: 100% !important;
           }
           
-          .ffz--tab-container .ffz--menu-container [for^="addon.${metadata.addon}.badge"] .ffz-badge.ffz-tooltip {
+          .ffz--tab-container .ffz--menu-container [for="addon.${metadata.addon}.badge"] .ffz-badge.ffz-tooltip {
             background-size: contain;
             background-repeat: no-repeat;
           }
             
-          .ffz--tab-container .ffz--menu-container [for^="addon.${metadata.addon}.badge"] .ffz-badge.ffz-tooltip[title="Minawan"]:first-child { 
+          .ffz--tab-container .ffz--menu-container [for="addon.${metadata.addon}.badge"] .ffz-badge.ffz-tooltip[title="Minawan"]:first-child { 
             display: none; 
           }
         `);
@@ -155,14 +155,15 @@
         if (!isDawgsChannel && !this.isEverywhere) return;
 
         const user = instance.props.message?.user ?? instance.props.messageContext?.author;
-        this.registerUserBadge(user.id, `${user.displayName}`.toLocaleLowerCase());
+        this.registerUserBadge(user.id, user.displayName);
       }
 
-      async registerUserBadge(userId, username) {
-        if (minasonas[username] === undefined) return;
+      async registerUserBadge(userId, displayName) {
+        const minaKey = `${displayName}`.toLowerCase();
+        if (minasonas[minaKey] === undefined) return;
 
-        const imageUrl = minasonas[username]?.imageUrl;
-        const iconUrl = minasonas[username]?.iconUrl;
+        const imageUrl = minasonas[minaKey]?.imageUrl;
+        const iconUrl = minasonas[minaKey]?.iconUrl;
         const baseId = `addon.${metadata.addon}.badge`;
         const user = this.chat.getUser(userId);
         if (user.getBadge(baseId) !== null) return;
@@ -170,22 +171,22 @@
         const badgeId = `${baseId}-${userId}`;
         if (this.users.get(badgeId)) return;
 
-        const minawan = /^([\d_]+)?([A-Za-z_]+?(wan))([\d_-]+)?$/i.exec(username)?.[2]?.replace(/[\d_-]+/i, '')
-          ?? /([\w.-]+\/)(\w+)_(\d+)x(\d+)\.(\w+)/i.exec((imageUrl ?? iconUrl))?.[2]?.replace(/minasona/i, username);// guessing minawan name
+        const minawan = /^([\d_]+)?([A-Za-z_]+?(wan))([\d_-]+)?$/i.exec(displayName)?.[2]?.replace(/[\d_-]+/i, '')
+          ?? /([\w.-]+\/)(\w+)_(\d+)x(\d+)\.(\w+)/i.exec((imageUrl ?? iconUrl))?.[2]?.replace(/minasona/i, displayName);// guessing minawan name
 
         this.badges.loadBadgeData(badgeId, {// visual dummy
           base_id: baseId,
           addon: metadata.addon,
           title: 'Minawan',
           image: iconUrl ?? imageUrl,
-          tooltipExtra: () => `\n(${minawan ?? username})`,
+          tooltipExtra: () => `\n(${minawan ?? displayName})`,
         });
 
         const options = {
           addon: metadata.addon,
           badge_id: badgeId,
           base_id: baseId,
-          title: minawan ?? username,
+          title: minawan ?? displayName,
           slot: 111,
           image: imageUrl,
           urls: {
