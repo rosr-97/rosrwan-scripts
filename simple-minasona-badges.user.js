@@ -2,7 +2,7 @@
 // @name         Simple Minasona Badges for FFZ
 // @namespace    https://github.com/rosr-97/rosrwan-scripts
 // @description  Simple implementation of the minasona badges for FrankerFacez.
-// @version      2026-05-07
+// @version      2026-05-08
 // @author       rosrwan
 // @match        https://www.twitch.tv/*
 // @icon         https://raw.githubusercontent.com/rosr-97/rosrwan-scripts/c5fd583eda27c2250aeebb305571b4727a069faf/assets/Minawan_Purple.png
@@ -84,7 +84,7 @@
 
         this.ChatLineWrapper = this.fine.define(
           "chat-line-wrapper",
-          n => n.onExtensionMessageClick || (n.props && n.props.message && n.props.message.user) || (n.onTimestampClickHandler && n.props?.messageContext),
+          n => n.props?.message?.user || (n.onTimestampClickHandler && n.props?.messageContext?.author),
           this.site.constructor.CHAT_ROUTES
         );
         this.users = new Map();
