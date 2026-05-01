@@ -2,7 +2,7 @@
 // @name         Simple Minasona Badges for FFZ
 // @namespace    https://github.com/rosr-97/rosrwan-scripts
 // @description  Simple implementation of the minasona badges for FrankerFacez.
-// @version      2026-05-05
+// @version      2026-05-06
 // @author       rosrwan
 // @match        https://www.twitch.tv/*
 // @icon         https://raw.githubusercontent.com/rosr-97/rosrwan-scripts/c5fd583eda27c2250aeebb305571b4727a069faf/assets/Minawan_Purple.png
@@ -49,7 +49,7 @@
   const metadata = {
     name: 'Simple Minasona Badges',
     description: 'Displays the minasona badge that corresponds to minawan.',
-    version: '1.0.0',
+    version: '1.0.1',
     author: "rosrwan",
     maintainer: "rosrwan",
     short_name: 'Minasona Badges',
@@ -81,10 +81,10 @@
         this.inject('site');
         this.inject('site.router');
         this.inject('site.fine');
-        
-        this.ChatLine = this.fine.define(
-          "chat-line",
-          n => n.onExtensionMessageClick || (n.props && n.props.message && n.props.message.user),
+
+        this.ChatLineWrapper = this.fine.define(
+          "chat-line-wrapper",
+          n => n.onExtensionMessageClick || (n.props && n.props.message && n.props.message.user) || (n.onTimestampClickHandler && n.props?.messageContext),
           this.site.constructor.CHAT_ROUTES
         );
         this.users = new Map();
@@ -128,39 +128,34 @@
             background-size: contain;
             background-repeat: no-repeat;
           }
+            
+          .ffz--tab-container .ffz--menu-container [for^="addon.${metadata.addon}.badge"] .ffz-badge.ffz-tooltip[title="Minawan"]:first-child { 
+            display: none; 
+          }
         `);
-        this.registerTemplate();
 
-        this.ChatLine.on("update", this.onReceiveMessage.bind(this));
-        this.ChatLine.on("mount", this.onReceiveMessage.bind(this));
+        this.badges.loadBadgeData(`addon.${metadata.addon}.badge`, {
+          base_id: `addon.${metadata.addon}.badge`,
+          addon: metadata.addon,
+          title: 'Minawan',
+          image: metadata.icon,
+          css: 'background-size: contain;background-repeat: no-repeat;',
+          click_url: 'https://minawan.me/gallery/',
+        });
+
+        this.ChatLineWrapper.on("update", this.onChatLineWrapper.bind(this));
+        this.ChatLineWrapper.on("mount", this.onChatLineWrapper.bind(this));
         this.router.on(':route', this.updateBadges.bind(this));
       }
 
-      onReceiveMessage(instance) {
+      onChatLineWrapper(instance) {
         if (!this.isEnabled) return;
 
         const isDawgsChannel = /^\/(cerbervt)$/i.test(location.pathname);
         if (!isDawgsChannel && !this.isEverywhere) return;
 
-        const user = instance.props.message.user;
-        this.registerUserBadge(user.id, `${user.login}`.toLocaleLowerCase());
-      }
-
-      registerTemplate() {
-        const badgeId = `addon.${metadata.addon}.badge`;
-
-        this.style.set(`template`, `
-          .ffz--tab-container .ffz--menu-container [for^="addon.${metadata.addon}.badge"] .ffz-badge.ffz-tooltip[title="Minawan"]:first-child { display: none; }
-        `);
-
-        this.badges.loadBadgeData(badgeId, {
-          base_id: badgeId,
-          addon: metadata.addon,
-          title: 'Minawan',
-          image: metadata.icon,
-          css: 'background-size: contain;background-repeat: no-repeat;',
-			    click_url: 'https://minawan.me/gallery/',
-        });
+        const user = instance.props.message?.user ?? instance.props.messageContext?.author;
+        this.registerUserBadge(user.id, `${user.login ?? user.name}`.toLocaleLowerCase());
       }
 
       async registerUserBadge(userId, username) {
@@ -183,7 +178,7 @@
           addon: metadata.addon,
           title: 'Minawan',
           image: iconUrl ?? imageUrl,
-          tooltipExtra: () => `\n(${`${minawan ?? username}`})`,
+          tooltipExtra: () => `\n(${minawan ?? username})`,
         });
 
         const options = {
