@@ -2,7 +2,7 @@
 // @name         Simple Minasona Badges for FFZ
 // @namespace    https://github.com/rosr-97/rosrwan-scripts
 // @description  Simple implementation of the minasona badges for FrankerFacez.
-// @version      2026-05-04
+// @version      2026-05-05
 // @author       rosrwan
 // @match        https://www.twitch.tv/*
 // @icon         https://raw.githubusercontent.com/rosr-97/rosrwan-scripts/c5fd583eda27c2250aeebb305571b4727a069faf/assets/Minawan_Purple.png
@@ -120,10 +120,10 @@
 
       onEnable() {
         this.style.set('default', `
-          .minasona-icon-container {
-            display: none;
+          .ffz--tab-container .ffz--menu-container li:has(> [id="addon.${metadata.addon}.badge"]) {
+            width: 100% !important;
           }
-            
+          
           .ffz--tab-container .ffz--menu-container [for^="addon.${metadata.addon}.badge"] .ffz-badge.ffz-tooltip {
             background-size: contain;
             background-repeat: no-repeat;
