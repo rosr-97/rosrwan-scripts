@@ -2,7 +2,7 @@
 // @name         Simple Minasona Badges for FFZ
 // @namespace    https://github.com/rosr-97/rosrwan-scripts
 // @description  Simple implementation of the minasona badges for FrankerFacez.
-// @version      2026-05-09
+// @version      2026-05-10
 // @author       rosrwan
 // @match        https://www.twitch.tv/*
 // @icon         https://raw.githubusercontent.com/rosr-97/rosrwan-scripts/c5fd583eda27c2250aeebb305571b4727a069faf/assets/Minawan_Purple.png
@@ -82,11 +82,18 @@
         this.inject('site.router');
         this.inject('site.fine');
 
-        this.ChatLineWrapper = this.fine.define(
-          "chat-line-wrapper",
-          n => n.props?.message?.user || n.props?.messageContext?.author,
+        this.ChatLine = this.fine.define(
+          "chat-line",
+          n => n.onExtensionMessageClick || (n.props && n.props.message && n.props?.message?.user),
           this.site.constructor.CHAT_ROUTES
         );
+
+        this.VideoChatLine = this.fine.define(
+          'video-chat-line',
+          n => n.onTimestampClickHandler && n.props?.messageContext?.author,
+          ['user-video', 'user-clip', 'video']
+        );
+
         this.users = new Map();
         this.style = new ManagedStyle();
 
@@ -143,8 +150,10 @@
           click_url: 'https://minawan.me/gallery/',
         });
 
-        this.ChatLineWrapper.on("update", this.onChatLineWrapper.bind(this));
-        this.ChatLineWrapper.on("mount", this.onChatLineWrapper.bind(this));
+        this.ChatLine.on("update", this.onChatLineWrapper.bind(this));
+        this.ChatLine.on("mount", this.onChatLineWrapper.bind(this));
+        this.VideoChatLine.on("update", this.onChatLineWrapper.bind(this));
+        this.VideoChatLine.on("mount", this.onChatLineWrapper.bind(this));
         this.router.on(':route', this.updateBadges.bind(this));
       }
 
