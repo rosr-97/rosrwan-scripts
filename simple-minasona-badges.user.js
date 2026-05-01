@@ -2,7 +2,7 @@
 // @name         Simple Minasona Badges for FFZ
 // @namespace    https://github.com/rosr-97/rosrwan-scripts
 // @description  Simple implementation of the minasona badges for FrankerFacez.
-// @version      2026-05-06
+// @version      2026-05-07
 // @author       rosrwan
 // @match        https://www.twitch.tv/*
 // @icon         https://raw.githubusercontent.com/rosr-97/rosrwan-scripts/c5fd583eda27c2250aeebb305571b4727a069faf/assets/Minawan_Purple.png
@@ -155,7 +155,7 @@
         if (!isDawgsChannel && !this.isEverywhere) return;
 
         const user = instance.props.message?.user ?? instance.props.messageContext?.author;
-        this.registerUserBadge(user.id, `${user.login ?? user.name}`.toLocaleLowerCase());
+        this.registerUserBadge(user.id, `${user.displayName}`.toLocaleLowerCase());
       }
 
       async registerUserBadge(userId, username) {
