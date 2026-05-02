@@ -20,7 +20,7 @@
     short_name: 'LowLatencyCatchUp',
     author: 'Mattskiiau',
     maintainer: 'rosrwan',
-    description: 'Enjoy a smoother, truly live Twitch experience! This script intelligently manages playback speed to eliminate frustrating lag, keeping you in the moment. Comes with a simple on-screen menu to customize your settings.',
+    description: 'Enjoy a smoother, truly live Twitch experience! This script intelligently manages playback speed to eliminate frustrating lag, keeping you in the moment.',
     version: '2026-02-27',
     website: 'https://github.com/rosr-97/rosrwan-scripts',
     enabled: true,
