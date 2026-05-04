@@ -2,7 +2,7 @@
 // @name         Simple Minasona Badges for FFZ
 // @namespace    https://github.com/rosr-97/rosrwan-scripts
 // @description  Simple implementation of the minasona badges for FrankerFacez.
-// @version      2026-05-10
+// @version      2026-05-12
 // @author       rosrwan
 // @match        https://www.twitch.tv/*
 // @icon         https://raw.githubusercontent.com/rosr-97/rosrwan-scripts/c5fd583eda27c2250aeebb305571b4727a069faf/assets/Minawan_Purple.png
@@ -48,8 +48,8 @@
 
   const metadata = {
     name: 'Simple Minasona Badges',
-    description: 'Displays the minasona badge that corresponds to minawan.',
-    version: '1.0.1',
+    description: 'Displays a Minasona badge that corresponds to Minawan.',
+    version: '1.0.2',
     author: "rosrwan",
     maintainer: "rosrwan",
     short_name: 'Minasona Badges',
@@ -64,7 +64,7 @@
   function addons_ready(event) {
     const { ManagedStyle } = FrankerFaceZ.utilities.dom;
 
-    class MinasonaTwitchExtension extends FrankerFaceZ.utilities.addon.Addon {
+    class SimpleMinasonaBadgesAddon extends FrankerFaceZ.utilities.addon.Addon {
       get isEnabled() {
         return this.settings.get(`${metadata.addon}.enabled`);
       }
@@ -82,18 +82,8 @@
         this.inject('site.router');
         this.inject('site.fine');
 
-        this.ChatLine = this.fine.define(
-          "chat-line",
-          n => n.onExtensionMessageClick || (n.props && n.props.message && n.props?.message?.user),
-          this.site.constructor.CHAT_ROUTES
-        );
-
-        this.VideoChatLine = this.fine.define(
-          'video-chat-line',
-          n => n.onTimestampClickHandler && n.props?.messageContext?.author,
-          ['user-video', 'user-clip', 'video']
-        );
-
+        this.ChatLine = this.fine.define('chat-line');
+        this.VideoChatLine = this.fine.define('video-chat-line');
         this.users = new Map();
         this.style = new ManagedStyle();
 
@@ -223,6 +213,6 @@
       }
     }
 
-    MinasonaTwitchExtension.register(metadata.addon, metadata);
+    SimpleMinasonaBadgesAddon.register(metadata.addon, metadata);
   }
 })();
