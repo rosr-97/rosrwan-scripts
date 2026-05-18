@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Twitch Low Latency Catch-Up for FFZ
-// @version      2026-04-29
+// @version      2026-05-17
 // @description  Integration controller of the script 'Twitch Low Latency Catch-Up' for FrankerFaceZ.
 // @author       rosrwan
 // @namespace    https://github.com/rosr-97/rosrwan-scripts
@@ -21,7 +21,7 @@
     author: 'Mattskiiau',
     maintainer: 'rosrwan',
     description: 'Enjoy a smoother, truly live Twitch experience! This script intelligently manages playback speed to eliminate frustrating lag, keeping you in the moment.',
-    version: '2026-02-27',
+    version: '1.1.0',
     website: 'https://github.com/rosr-97/rosrwan-scripts',
     enabled: true,
     requires: [],
@@ -172,6 +172,74 @@
             input.dispatchEvent(new InputEvent('input'));
           });
 
+        this.settings.add('low_latency_catch_up.seekTriggerLag', {
+          default: 8.0,
+          ui: {
+            path: 'Add-Ons > Low Latency Catch-Up >> General > Advanced Options > Seek Catchup',
+            title: 'Seek Trigger Lag',
+            description: 'Latency where jump catch-up is allowed.',
+            component: 'setting-text-box',
+            type: "number",
+          },
+        });
+        this.settings.getChanges('low_latency_catch_up.seekTriggerLag',
+          (val) => {
+            const input = document.querySelector('#llc30 [data-key="seekTriggerLag"]');
+            input.value = val;
+            input.dispatchEvent(new InputEvent('input'));
+          });
+
+        this.settings.add('low_latency_catch_up.seekCooldownMs', {
+          default: 12000,
+          ui: {
+            path: 'Add-Ons > Low Latency Catch-Up >> General > Advanced Options > Seek Catchup',
+            title: 'Seek Cooldown Ms',
+            description: 'Minimum time between jump catch-ups.',
+            component: 'setting-text-box',
+            type: "number",
+          },
+        });
+        this.settings.getChanges('low_latency_catch_up.seekCooldownMs',
+          (val) => {
+            const input = document.querySelector('#llc30 [data-key="seekCooldownMs"]');
+            input.value = val;
+            input.dispatchEvent(new InputEvent('input'));
+          });
+
+        this.settings.add('low_latency_catch_up.seekLandingBuffer', {
+          default: 4.0,
+          ui: {
+            path: 'Add-Ons > Low Latency Catch-Up >> General > Advanced Options > Seek Catchup',
+            title: 'Seek Landing Buffer',
+            description: 'Buffered video kept after a jump to avoid stutter.',
+            component: 'setting-text-box',
+            type: "number",
+          },
+        });
+        this.settings.getChanges('low_latency_catch_up.seekLandingBuffer',
+          (val) => {
+            const input = document.querySelector('#llc30 [data-key="seekLandingBuffer"]');
+            input.value = val;
+            input.dispatchEvent(new InputEvent('input'));
+          });
+
+        this.settings.add('low_latency_catch_up.stallCooldownMs', {
+          default: 8000,
+          ui: {
+            path: 'Add-Ons > Low Latency Catch-Up >> General > Advanced Options > Seek Catchup',
+            title: 'Stall Cooldown Ms',
+            description: 'Catch-up pause after Twitch reports buffering.',
+            component: 'setting-text-box',
+            type: "number",
+          },
+        });
+        this.settings.getChanges('low_latency_catch_up.stallCooldownMs',
+          (val) => {
+            const input = document.querySelector('#llc30 [data-key="stallCooldownMs"]');
+            input.value = val;
+            input.dispatchEvent(new InputEvent('input'));
+          });
+
         this.player.on(':update-gui', this.router_route.bind(this));
         this.router.on(':route', this.router_route.bind(this));
         this.router_route.bind(this)();
@@ -183,7 +251,7 @@
         const isLive = /^\/(\w+)$/i.test(location.pathname);
         const canCatchUp = isLive && !isRewind
           && this.settings.get('low_latency_catch_up.enabled');
-          
+
         if (input.checked === canCatchUp) return;
         input.checked = canCatchUp;
         input.dispatchEvent(new InputEvent('input'));
