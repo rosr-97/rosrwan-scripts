@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Twitch Low Latency Catch-Up for FFZ
-// @version      2026-05-18
+// @version      2026-05-17
 // @description  Integration controller of the script 'Twitch Low Latency Catch-Up' for FrankerFaceZ.
 // @author       rosrwan
 // @namespace    https://github.com/rosr-97/rosrwan-scripts
@@ -117,7 +117,7 @@
         this.settings.add('low_latency_catch_up.rateStepUp', {
           default: 0.05,
           ui: {
-            path: 'Add-Ons > Low Latency Catch-Up >> General > Advanced Options',
+            path: 'Add-Ons > Low Latency Catch-Up >> General > Options',
             title: 'Rate Step Up',
             description: 'The maximum amount the playback speed can increase in a single step. Lowering this value results in a slower, smoother acceleration.',
             component: 'setting-text-box',
@@ -139,7 +139,7 @@
         this.settings.add('low_latency_catch_up.rateStepDown', {
           default: 0.05,
           ui: {
-            path: 'Add-Ons > Low Latency Catch-Up >> General > Advanced Options',
+            path: 'Add-Ons > Low Latency Catch-Up >> General > Options',
             title: 'Rate Step Down',
             description: 'The maximum amount the playback speed can decrease in a single step. Lowering this value results in a slower, smoother deceleration back to normal speed.',
             component: 'setting-text-box',
@@ -161,7 +161,7 @@
         this.settings.add('low_latency_catch_up.rateSmoothFactor', {
           default: 0.55,
           ui: {
-            path: 'Add-Ons > Low Latency Catch-Up >> General > Advanced Options',
+            path: 'Add-Ons > Low Latency Catch-Up >> General > Options',
             title: 'Rate Smooth Factor',
             description: 'A multiplier that affects how aggressively the script tries to reach the target speed. A higher value makes the speed changes more aggressive.',
             component: 'setting-text-box',
@@ -183,7 +183,7 @@
         this.settings.add('low_latency_catch_up.bufferSafety', {
           default: 1.5,
           ui: {
-            path: 'Add-Ons > Low Latency Catch-Up >> General > Advanced Options',
+            path: 'Add-Ons > Low Latency Catch-Up >> General > Options',
             title: 'Buffer Safety',
             description: 'The minimum number of seconds of video that must be buffered before the script is allowed to speed up.',
             component: 'setting-text-box',
@@ -202,10 +202,26 @@
             input.dispatchEvent(new InputEvent('input'));
           });
 
+        this.settings.add('low_latency_catch_up.seekCatchup', {
+          default: true,
+          ui: {
+            path: 'Add-Ons > Low Latency Catch-Up >> General > Seek Catchup',
+            title: 'Allow Seek Catchup',
+            description: 'Jump forward when latency is too high for playback speed alone.',
+            component: 'setting-check-box'
+          },
+        });
+        this.settings.getChanges('low_latency_catch_up.seekCatchup',
+          (val) => {
+            const input = document.querySelector('#llc30 [data-key="seekCatchup"]');
+            input.checked = val;
+            input.dispatchEvent(new InputEvent('input'));
+          });
+
         this.settings.add('low_latency_catch_up.seekTriggerLag', {
           default: 8.0,
           ui: {
-            path: 'Add-Ons > Low Latency Catch-Up >> General > Advanced Options > Seek Catchup',
+            path: 'Add-Ons > Low Latency Catch-Up >> General > Seek Catchup',
             title: 'Seek Trigger Lag',
             description: 'Latency where jump catch-up is allowed.',
             component: 'setting-text-box',
@@ -227,7 +243,7 @@
         this.settings.add('low_latency_catch_up.seekCooldownMs', {
           default: 12000,
           ui: {
-            path: 'Add-Ons > Low Latency Catch-Up >> General > Advanced Options > Seek Catchup',
+            path: 'Add-Ons > Low Latency Catch-Up >> General > Seek Catchup',
             title: 'Seek Cooldown Ms',
             description: 'Minimum time between jump catch-ups.',
             component: 'setting-text-box',
@@ -249,7 +265,7 @@
         this.settings.add('low_latency_catch_up.seekLandingBuffer', {
           default: 4.0,
           ui: {
-            path: 'Add-Ons > Low Latency Catch-Up >> General > Advanced Options > Seek Catchup',
+            path: 'Add-Ons > Low Latency Catch-Up >> General > Seek Catchup',
             title: 'Seek Landing Buffer',
             description: 'Buffered video kept after a jump to avoid stutter.',
             component: 'setting-text-box',
@@ -271,7 +287,7 @@
         this.settings.add('low_latency_catch_up.stallCooldownMs', {
           default: 8000,
           ui: {
-            path: 'Add-Ons > Low Latency Catch-Up >> General > Advanced Options > Seek Catchup',
+            path: 'Add-Ons > Low Latency Catch-Up >> General > Seek Catchup',
             title: 'Stall Cooldown Ms',
             description: 'Catch-up pause after Twitch reports buffering.',
             component: 'setting-text-box',
