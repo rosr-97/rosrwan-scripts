@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Twitch Low Latency Catch-Up for FFZ
-// @version      2026-05-17
+// @version      2026-05-19
 // @description  Integration controller of the script 'Twitch Low Latency Catch-Up' for FrankerFaceZ.
 // @author       rosrwan
 // @namespace    https://github.com/rosr-97/rosrwan-scripts
