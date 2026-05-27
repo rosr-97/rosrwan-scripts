@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Twitch Low Latency Catch-Up for FFZ
-// @version      2026-05-20
+// @version      2026-05-27
 // @description  Integration controller of the script 'Twitch Low Latency Catch-Up' for FrankerFaceZ.
 // @author       rosrwan
 // @namespace    https://github.com/rosr-97/rosrwan-scripts
@@ -78,10 +78,10 @@
             description: 'The desired number of seconds you want to be behind the live stream.',
             component: 'setting-text-box',
             type: "number",
-            process: (newVal, _oldVal) => {
-              const number = Number(newVal) || Number(_oldVal) || 2.5;
+            process: (newVal, oldVal) => {
+              const number = Number(newVal);
               const value = number <= 0 ? 0 : number;
-              return `${value}`;
+              return Number.isFinite(value) ? value : Number(oldVal);
             },
           },
         });
@@ -100,10 +100,10 @@
             description: 'The maximum speed the video will play at while catching up. A higher value means you will catch up faster, but it may be more noticeable.',
             component: 'setting-text-box',
             type: "number",
-            process: (newVal, _oldVal) => {
-              const number = Number(newVal) || Number(_oldVal) || 1.03;
+            process: (newVal, oldVal) => {
+              const number = Number(newVal);
               const value = number <= 1 ? 1 : number >= 5 ? 5 : number;
-              return `${value}`;
+              return Number.isFinite(value) ? value : Number(oldVal);
             },
           },
         });
@@ -122,10 +122,10 @@
             description: 'The maximum amount the playback speed can increase in a single step. Lowering this value results in a slower, smoother acceleration.',
             component: 'setting-text-box',
             type: "number",
-            process: (newVal, _oldVal) => {
-              const number = Number(newVal) || Number(_oldVal) || 0.05;
+            process: (newVal, oldVal) => {
+              const number = Number(newVal);
               const value = number <= 0.01 ? 0.01 : number >= 1 ? 1 : number;
-              return `${value}`;
+              return Number.isFinite(value) ? value : Number(oldVal);
             },
           },
         });
@@ -144,10 +144,10 @@
             description: 'The maximum amount the playback speed can decrease in a single step. Lowering this value results in a slower, smoother deceleration back to normal speed.',
             component: 'setting-text-box',
             type: "number",
-            process: (newVal, _oldVal) => {
-              const number = Number(newVal) || Number(_oldVal) || 0.05;
+            process: (newVal, oldVal) => {
+              const number = Number(newVal);
               const value = number <= 0.01 ? 0.01 : number >= 1 ? 1 : number;
-              return `${value}`;
+              return Number.isFinite(value) ? value : Number(oldVal);
             },
           },
         });
@@ -166,10 +166,11 @@
             description: 'A multiplier that affects how aggressively the script tries to reach the target speed. A higher value makes the speed changes more aggressive.',
             component: 'setting-text-box',
             type: "number",
-            process: (newVal, _oldVal) => {
-              const number = Number(newVal) || Number(_oldVal) || 0.55;
+
+            process: (newVal, oldVal) => {
+              const number = Number(newVal);
               const value = number <= 0.01 ? 0.01 : number >= 1 ? 1 : number;
-              return `${value}`;
+              return Number.isFinite(value) ? value : Number(oldVal);
             },
           },
         });
@@ -188,10 +189,10 @@
             description: 'The minimum number of seconds of video that must be buffered before the script is allowed to speed up.',
             component: 'setting-text-box',
             type: "number",
-            process: (newVal, _oldVal) => {
-              const number = Number(newVal) || Number(_oldVal) || 1.5;
+            process: (newVal, oldVal) => {
+              const number = Number(newVal);
               const value = number <= 0 ? 0 : number >= 10 ? 10 : number;
-              return `${value}`;
+              return Number.isFinite(value) ? value : Number(oldVal);
             },
           },
         });
@@ -226,10 +227,11 @@
             description: 'Latency where jump catch-up is allowed.',
             component: 'setting-text-box',
             type: "number",
-            process: (newVal, _oldVal) => {
-              const number = Number(newVal) || Number(_oldVal) || 8.0;
+
+            process: (newVal, oldVal) => {
+              const number = Number(newVal);
               const value = number <= 1 ? 1 : number >= 60 ? 60 : number;
-              return `${value}`;
+              return Number.isFinite(value) ? value : Number(oldVal);
             },
           },
         });
@@ -248,10 +250,10 @@
             description: 'Minimum time between jump catch-ups.',
             component: 'setting-text-box',
             type: "number",
-            process: (newVal, _oldVal) => {
-              const number = Number(newVal) || Number(_oldVal) || 12000;
+            process: (newVal, oldVal) => {
+              const number = Number(newVal);
               const value = number <= 1000 ? 1000 : number >= 30000 ? 30000 : number;
-              return `${value}`;
+              return Number.isFinite(value) ? value : Number(oldVal);
             },
           },
         });
@@ -270,10 +272,10 @@
             description: 'Buffered video kept after a jump to avoid stutter.',
             component: 'setting-text-box',
             type: "number",
-            process: (newVal, _oldVal) => {
-              const number = Number(newVal) || Number(_oldVal) || 4.0;
+            process: (newVal, oldVal) => {
+              const number = Number(newVal);
               const value = number <= 1 ? 1 : number >= 15 ? 15 : number;
-              return `${value}`;
+              return Number.isFinite(value) ? value : Number(oldVal);
             },
           },
         });
@@ -292,10 +294,10 @@
             description: 'Catch-up pause after Twitch reports buffering.',
             component: 'setting-text-box',
             type: "number",
-            process: (newVal, _oldVal) => {
-              const number = Number(newVal) || Number(_oldVal) || 8000;
+            process: (newVal, oldVal) => {
+              const number = Number(newVal);
               const value = number <= 1000 ? 1000 : number >= 30000 ? 30000 : number;
-              return `${value}`;
+              return Number.isFinite(value) ? value : Number(oldVal);
             },
           },
         });
