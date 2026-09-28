@@ -2,7 +2,7 @@
 // @name         Simple Minasona Badges for FFZ
 // @namespace    https://github.com/rosr-97/rosrwan-scripts
 // @description  Simple implementation of the minasona badges for FrankerFacez.
-// @version      2026-09-28
+// @version      2026-09-29
 // @author       rosrwan
 // @match        https://www.twitch.tv/*
 // @icon         https://raw.githubusercontent.com/rosr-97/rosrwan-scripts/c5fd583eda27c2250aeebb305571b4727a069faf/assets/Minawan_Purple.png
@@ -116,11 +116,7 @@
       }
 
       onEnable() {
-        this.style.set('default', `
-          .ffz--tab-container .ffz--menu-container li:has(> [id="addon.${metadata.addon}.badge"]) {
-            width: 100% !important;
-          }
-          
+        this.style.set('default', `          
           .ffz--tab-container .ffz--menu-container [for="addon.${metadata.addon}.badge"] .ffz-badge.ffz-tooltip {
             background-size: contain;
             background-repeat: no-repeat;
@@ -129,6 +125,29 @@
           .ffz--tab-container .ffz--menu-container [for="addon.${metadata.addon}.badge"] .ffz-badge.ffz-tooltip[title="Minawan"]:first-child { 
             display: none; 
           }
+            
+          section:has(> ul > li > input[id="addon.${metadata.addon}.badge"]) {
+            container-type: inline-size;
+            container-name: simple-minasona-badges-container;
+          }
+            
+          @container simple-minasona-badges-container (min-width: 22rem) {
+            li:has(> [id="addon.${metadata.addon}.badge"]) {
+              width: 22rem !important;
+            }
+          }
+ 
+          @container simple-minasona-badges-container (min-width: 44.5rem) {
+            li:has(> [id="addon.${metadata.addon}.badge"]) {
+              width: 44.5rem !important;
+            }
+          }
+ 
+          @container simple-minasona-badges-container (min-width: 67rem) {
+            li:has(> [id="addon.${metadata.addon}.badge"]) {
+              width: 67rem !important;
+            }
+          }
         `);
 
         this.badges.loadBadgeData(`addon.${metadata.addon}.badge`, {
@@ -136,6 +155,11 @@
           addon: metadata.addon,
           title: 'Minawan',
           image: metadata.icon,
+          urls: {
+            1: metadata.icon,
+            2: metadata.icon,
+            4: metadata.icon,
+          },
           css: 'background-size: contain;background-repeat: no-repeat;',
           click_url: 'https://minawan.me/gallery/',
         });
