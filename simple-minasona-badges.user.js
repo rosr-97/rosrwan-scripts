@@ -170,7 +170,7 @@
         const badgeId = `${baseId}-${userId}`;
         if (this.users.get(badgeId)) return;
 
-        const minawan = /[A-Za-z]+[-_]*wan[\d-_]*(?=\s|$)/i.exec(displayName)?.[0]?.replace(/[\d-_]+/g, '')
+        const minawan = /[A-Za-z]+[-_]*wan(?=[\d_-]|\s|$)/i.exec(displayName)?.[0]?.replace(/[\d-_]+/g, '')
           ?? /[\w.-]+\/(?:\w+_)*?([A-Za-z]+[-_]*wan[-_]*)(?=\d+x\d+\.\w+)/i.exec((imageUrl ?? iconUrl))?.[1]?.replace(/[-_]+/g, '');// guessing minawan name
 
         this.badges.loadBadgeData(badgeId, {// visual dummy
