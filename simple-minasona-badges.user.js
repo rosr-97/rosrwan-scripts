@@ -2,7 +2,7 @@
 // @name         Simple Minasona Badges for FFZ
 // @namespace    https://github.com/rosr-97/rosrwan-scripts
 // @description  Simple implementation of the minasona badges for FrankerFacez.
-// @version      2026-05-12
+// @version      2026-09-28
 // @author       rosrwan
 // @match        https://www.twitch.tv/*
 // @icon         https://raw.githubusercontent.com/rosr-97/rosrwan-scripts/c5fd583eda27c2250aeebb305571b4727a069faf/assets/Minawan_Purple.png
@@ -170,8 +170,8 @@
         const badgeId = `${baseId}-${userId}`;
         if (this.users.get(badgeId)) return;
 
-        const minawan = /^([\d_]+)?([A-Za-z_]+?(wan))([\d_-]+)?$/i.exec(displayName)?.[2]?.replace(/[\d_-]+/i, '')
-          ?? /([\w.-]+\/)(\w+)_(\d+)x(\d+)\.(\w+)/i.exec((imageUrl ?? iconUrl))?.[2]?.replace(/minasona/i, displayName);// guessing minawan name
+        const minawan = /[A-Za-z]+[-_]*wan[\d-_]*(?=\s|$)/i.exec(displayName)?.[0]?.replace(/[\d-_]+/g, '')
+          ?? /[\w.-]+\/(?:\w+_)*?([A-Za-z]+[-_]*wan[-_]*)(?=\d+x\d+\.\w+)/i.exec((imageUrl ?? iconUrl))?.[1]?.replace(/[-_]+/g, '');// guessing minawan name
 
         this.badges.loadBadgeData(badgeId, {// visual dummy
           base_id: baseId,
